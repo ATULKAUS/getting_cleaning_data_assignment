@@ -83,4 +83,8 @@ head(tidydata)
 
 write.table(tidydata, file="./tidydata.txt", sep="\t", row.names=FALSE)
 
+# Getting the tidy datset above ("./tidydata.txt") as the output of the script
+read.table("./tidydata.txt")
+
+
 
