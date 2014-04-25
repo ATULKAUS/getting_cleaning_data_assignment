@@ -123,9 +123,11 @@ head(tidydata)
 ```
 ```
 Next we saved this tidy data set as **'tidydata.txt'**
+Then we get the output tidy data set above as the output of the "run_analysis.R" using the "read.table()" command
 ```
 ```{r}
 write.table(tidydata, file="./tidydata.txt", sep="\t", row.names=FALSE)
+read.table("./tidydata.txt")
 ```
 ```
 ### 3. EXPLAINING VARIABLE NAMES (in the final TIDY DATA)
