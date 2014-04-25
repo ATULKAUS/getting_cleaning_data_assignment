@@ -29,7 +29,7 @@ For the purpose of this project, the following files have been referred from the
 * 'test/y_test.txt': Test labels.
 ```
 ```{r}
-# Reading Files
+## Reading Files
 sub.test<-read.table("C:/Users/Toshiba/Documents/UCI HAR Dataset/test/subject_test.txt")
 x.test<-read.table("C:/Users/Toshiba/Documents/UCI HAR Dataset/test/X_test.txt")
 y.test<-read.table("C:/Users/Toshiba/Documents/UCI HAR Dataset/test/y_test.txt")
@@ -41,7 +41,7 @@ y.train<-read.table("C:/Users/Toshiba/Documents/UCI HAR Dataset/train/y_train.tx
 After reading the files, we made the test and the train data frames. 
 ```
 ```{r}
-# Making 'test' and 'train' data frames
+## Making 'test' and 'train' data frames
 test<-data.frame(cbind(sub.test,y.test,x.test))
 train<-data.frame(cbind(sub.train,y.train,x.train))
 ```
@@ -55,22 +55,22 @@ merged<-data.frame(rbind(test,train))
 This 'merged' dataset has 10299 rows and 563 columns (variables), but does not have proper descriptive names for the variables. Next we read the variable names from 'features.txt' file **[2]** and we append the variables 'subject' and 'activity'.
 ```
 ```{r}
-# Reading the variable names from 'features.txt' file 
-# and storing names into a vector 'c.name.mod'
+## Reading the variable names from 'features.txt' file 
+## and storing names into a vector 'c.name.mod'
 c.name<-read.table("C:/Users/Toshiba/Documents/UCI HAR Dataset/features.txt")
 c.name.mod<-as.vector(c.name[,2])
-# Incorporating the labels "subject" and "activity
+## Incorporating the labels "subject" and "activity
 c.name.mod1<-append(c.name.mod,"subject",after=FALSE)
 c.name.mod2<-append(c.name.mod1,"activity",after=1)
-# Appropriately labelling the data set with descriptive activity names
+## Appropriately labelling the data set with descriptive activity names
 colnames(merged)<-c.name.mod2
 ```
 ```
 Next for the purpose of this project, we are required only to extract those cases that include ** measurements on the mean and standard deviation for each measurement **. So we subset the merged dataset suitably and also include the variables 'subject' and 'activity'.
 ```
 ```{r}
-# Extracting the measurements on 'mean()' and 'standard deviation()' for each measurement
-# into a modified data frame 'merged.mn.sd'
+## Extracting the measurements on 'mean()' and 'standard deviation()' for each measurement
+## into a modified data frame 'merged.mn.sd'
 mn<-grep("mean()",colnames(merged),fixed=TRUE)
 sd<-grep("std()",colnames(merged),fixed=TRUE)
 mn.sd<-c(mn,sd)
@@ -104,18 +104,18 @@ This ** tidy data ** set has been ordered by subject and activity; has
 ** 68 columns (i.e. variables) **
 ```
 ```{r}
-# Creates a second, independent tidy dataset 'tidydata' 
-# (ordered by "subject" and "activity")
-# with the average of each variable for each activity and each subject.
+## Creates a second, independent tidy dataset 'tidydata' 
+## (ordered by "subject" and "activity")
+## with the average of each variable for each activity and each subject.
 install.packages("plyr")
 library(plyr)
 tidydata<-ddply(merged.mn.sd,.(subject,activity),numcolwise(mean))
-# Inserting the activity labels in place of the numerical factor levels in the tidy dataset 
-# to improve the readability of the activity levels the data frame 'tidy.data' 
+## Inserting the activity labels in place of the numerical factor levels in the tidy dataset 
+## to improve the readability of the activity levels the data frame 'tidy.data' 
 tidydata[,2]<-mapvalues(tidydata[,2],from = c("1","2","3","4","5","6"),
   to = c("WALKING","WALKING_UPSTAIRS","WALKING_DOWNSTAIRS","SITTING","STANDING","LAYING"))
-# Exploring features of the tidy dataset named 'tidydata'
-# e.g. dimensions, names, the subject and activity columns, head
+## Exploring features of the tidy dataset named 'tidydata'
+## e.g. dimensions, names, the subject and activity columns, head
 dim(tidydata)
 names(tidydata)
 tidydata[,1:2]
